@@ -7,11 +7,21 @@
 //
 
 #import "CCJAutoLabel.h"
+#import<CoreText/CoreText.h>
+
+typedef NS_ENUM(NSUInteger, XSAttributedType) {
+    XSAttributedTypeColor,
+    XSAttributedTypeFont,
+    XSAttributedTypeParagraph,
+    XSAttributedTypecharacterSpacing,
+};
+
 
 @interface CCJAutoLabel ()
 
 @property (nonatomic,assign) CGFloat mMaxWidth;
 @property (nonatomic,assign) CGPoint mOrigin;
+@property (nonatomic, strong)NSMutableAttributedString *mAttributeString;
 
 @end
 
@@ -38,9 +48,21 @@
     _mText = mText;
     self.text = _mText;
     [self changeSize];
-    
-
 }
+
+-(void)setMAttributeString:(NSMutableAttributedString *)mAttributeString
+{
+    _mAttributeString = mAttributeString;
+    self.attributedText = _mAttributeString;
+    [self renderAttribute];
+}
+-(void)setMAttributeText:(NSString *)mAttributeText
+{
+    _mAttributeText = mAttributeText;
+    self.mText = _mAttributeText;
+    self.mAttributeString = [[NSMutableAttributedString alloc]initWithString:_mAttributeText];
+}
+
 -(void)setMMaxNumberOfLines:(NSInteger)mMaxNumberOfLines
 {
     _mMaxNumberOfLines = mMaxNumberOfLines;
@@ -63,6 +85,45 @@
     [self changeSize];
 }
 
+- (void)renderAttribute {
+    self.attributedText = self.mAttributeString;
+    [self changeSize];
+}
+
+
+
+-(void)setAttributeTextFont:(UIFont*)font andRange:(NSRange)range
+{
+    if(font){
+        [self addAttributeType:XSAttributedTypeFont value:font range:range];
+    }
+    [self renderAttribute];
+}
+-(void)setAttributeTextColor:(UIColor *)color andRange:(NSRange)range
+{
+    if(color){
+        [self addAttributeType:XSAttributedTypeColor value:color range:range];
+    }
+    [self renderAttribute];
+}
+
+
+- (void)addAttributeType:(XSAttributedType)xmAttributedType_ value:(id)value_ range:(NSRange)range_ {
+    NSAssert((xmAttributedType_ == XSAttributedTypeColor || xmAttributedType_ == XSAttributedTypeFont || xmAttributedType_ == XSAttributedTypeParagraph || xmAttributedType_ == XSAttributedTypecharacterSpacing), @"type is wrong");
+    NSAssert(range_.length + range_.location <= self.mAttributeString.length, @"the range index is out of length ");
+    if (xmAttributedType_ == XSAttributedTypeColor) {
+        [self.mAttributeString addAttribute:NSForegroundColorAttributeName value:value_ range:range_];
+    } else if (xmAttributedType_ == XSAttributedTypeFont) {
+        [self.mAttributeString addAttribute:NSFontAttributeName value:value_ range:range_];
+    } else if (xmAttributedType_ == XSAttributedTypeParagraph) {
+        [self.mAttributeString addAttribute:NSParagraphStyleAttributeName value:value_ range:range_];
+    } else if (xmAttributedType_ == XSAttributedTypecharacterSpacing) {
+        [self.mAttributeString addAttribute:(id)kCTKernAttributeName value:value_ range:range_];
+    }
+}
+
+
+
 -(void)changeSize
 {
     CGSize sizeThatFit=[self sizeThatFits:CGSizeMake(self.mMaxWidth, 0)];//200表示最大宽度，高度没有意义（可以不设）
@@ -81,5 +142,7 @@
         self.left = self.origin.x;
     }
 }
+
+
 
 @end
