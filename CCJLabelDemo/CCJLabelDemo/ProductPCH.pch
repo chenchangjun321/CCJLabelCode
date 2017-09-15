@@ -1,0 +1,19 @@
+//
+//  ProductPCH.pch
+//  CCJLabelDemo
+//
+//  Created by 陈长军 on 2017/9/15.
+//  Copyright © 2017年 陈长军. All rights reserved.
+//
+
+#ifndef ProductPCH_pch
+#define ProductPCH_pch
+#import "UIViewExt.h"
+
+#define SCWIDTH [UIScreen mainScreen].bounds.size.width
+#define SCHEIGHT [UIScreen mainScreen].bounds.size.height
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* ProductPCH_pch */
