@@ -31,6 +31,7 @@
     self.navigationItem.title = @"分类";
     self.automaticallyAdjustsScrollViewInsets= NO;
     [self.view addSubview:self.mTableView];
+    //加一句
 }
 
 - (void)didReceiveMemoryWarning {
