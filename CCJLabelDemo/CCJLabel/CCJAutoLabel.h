@@ -11,7 +11,7 @@
 
 /**
  @brief 版本说明
- @discussion v1.0.0
+ @discussion v1.0.1
  1.根据字体，文字多少，自己修正Label的高度和宽度
  */
 
@@ -21,6 +21,11 @@
  @brief 普通文字
  */
 @property (nonatomic,strong) NSString               *mText;
+
+/**
+ @brief 属性文字
+ */
+@property (nonatomic,strong) NSString               *mAttributeText;
 
 /**
  @brief 最多显示行数
@@ -47,6 +52,23 @@
  @param maxWidth 最大宽度
  */
 - (instancetype)initWithOrigin:(CGPoint)origin andMaxWith:(CGFloat)maxWidth;
+
+/**
+ @brief 修改字体
+ @discussion 修改字体
+ @param font 字体
+ @param range 范围
+ */
+-(void)setAttributeTextFont:(UIFont*)font andRange:(NSRange)range;
+
+
+/**
+ @brief 修改字色
+ @discussion 字色改变
+ @param color 字色
+ @param range 范围
+ */
+-(void)setAttributeTextColor:(UIColor*)color andRange:(NSRange)range;
 
 
 @end
