@@ -32,7 +32,7 @@ static CGFloat const BUTTON_MARGIN = 10;
 -(NSArray *)dataArray
 {
     if(!_dataArray){
-        _dataArray = @[@"改变部分字体",@"改变部分字色"];
+        _dataArray = @[@"改变部分字体",@"改变部分字色",@"修改字间距",@"修改行间距",@"添加下划线",@"添加中划线"];
     }
     return _dataArray;
 }
@@ -52,7 +52,7 @@ static CGFloat const BUTTON_MARGIN = 10;
     if(!_mLabel){
         _mLabel = [[CCJAutoLabel alloc]initWithOrigin:CGPointMake(LEFT_MARGIN, 0) andMaxWith:SCWIDTH-LEFT_MARGIN-RIGHT_MARGIN];
         _mLabel.backgroundColor = [UIColor yellowColor];
-        _mLabel.mAttributeText = @"12312dfsfsf3哈哈哈";
+        _mLabel.mAttributeText = @"123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890哈哈asdshttps://www.baidu.com";
     }
     return _mLabel;
 }
@@ -162,10 +162,17 @@ static CGFloat const BUTTON_MARGIN = 10;
         [self.mLabel setAttributeTextFont:[UIFont systemFontOfSize:20] andRange:NSMakeRange(0, 3)];
     }else if(indexPath.row ==1){
         [self.mLabel setAttributeTextColor:[UIColor redColor] andRange:NSMakeRange(3, 2)];
+    }else if(indexPath.row == 2){
+        [self.mLabel setAttributeTextCharacterSpacing:20 andRange:NSMakeRange(0, 10)];
+    }else if(indexPath.row ==3){
+        [self.mLabel setAttributeTextParagraphSpace:25];
+    }else if(indexPath.row ==4){
+        [self.mLabel setAttributeTextUnderLineRange:NSMakeRange(0, 3) andLineColor:[UIColor redColor]];
+    }else{
+        [self.mLabel setAttributeTextStrikeThroughLineRange:NSMakeRange(4, 3) andLineColor:[UIColor greenColor]];
     }
     self.mBackLabelView.height = self.mLabel.height;
     [self.mTableView reloadData];
-    
 }
 
 @end

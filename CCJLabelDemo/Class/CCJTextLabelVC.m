@@ -32,7 +32,7 @@ static CGFloat const BUTTON_MARGIN = 10;
 -(NSArray *)dataArray
 {
     if(!_dataArray){
-        _dataArray = @[@"改变最大行数",@"字体修改",@"变为右边对齐",@"变为中间对齐",@"变为左边对齐"];
+        _dataArray = @[@"改变最大行数",@"字体修改",@"变为右边对齐",@"变为中间对齐",@"变为左边对齐",@"修改内容"];
     }
     return _dataArray;
 }
@@ -177,6 +177,8 @@ static CGFloat const BUTTON_MARGIN = 10;
     }
     else if(indexPath.row ==4){
         self.mLabel.mTextAlignment = NSTextAlignmentLeft;
+    }else if(indexPath.row ==5){
+        self.mLabel.mText = @"fdskfjsklfjsljflsjflsdjfldsjflsjflsjflsjlsjfsjdfjldjfljfdskfjsklfjsljflsjflsdjfldsjflsjflsjflsjlsjfsjdfjldjfljfdskfjsklfjsljflsjflsdjfldsjflsjflsjflsjlsjfsjdfjldjflj";
     }
     self.mBackLabelView.height = self.mLabel.height;
     [self.mTableView reloadData];

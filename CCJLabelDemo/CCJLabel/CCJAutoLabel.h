@@ -47,7 +47,7 @@
 
 /**
  @brief 初始化方法
- @discussion 给出最大宽度和原点
+ @discussion 给出最大宽度和原点，高度和宽度可以自己根据文字多少改变
  @param origin label的原点
  @param maxWidth 最大宽度
  */
@@ -70,5 +70,38 @@
  */
 -(void)setAttributeTextColor:(UIColor*)color andRange:(NSRange)range;
 
+
+/**
+ @brief 字间距
+ @discussion 间距
+ @param range 范围
+ */
+-(void)setAttributeTextCharacterSpacing:(CGFloat)wordSpace andRange:(NSRange)range;
+
+
+/**
+ @brief 行间距
+ @discussion 间距
+ */
+-(void)setAttributeTextParagraphSpace:(CGFloat)paragraphSpace;
+
+
+/**
+ @brief 下划线
+ @discussion singleLine
+ @param range 范围
+  @param lineColor 下划线颜色
+ */
+-(void)setAttributeTextUnderLineRange:(NSRange)range andLineColor:(UIColor*)lineColor;
+
+
+
+/**
+ @brief 中划线
+ @discussion singleLine
+ @param range 范围
+ @param lineColor 中划线颜色
+ */
+-(void)setAttributeTextStrikeThroughLineRange:(NSRange)range andLineColor:(UIColor*)lineColor;
 
 @end
