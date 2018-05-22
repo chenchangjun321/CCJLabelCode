@@ -52,7 +52,7 @@ static CGFloat const BUTTON_MARGIN = 10;
     if(!_mLabel){
         _mLabel = [[CCJAutoLabel alloc]initWithOrigin:CGPointMake(LEFT_MARGIN, 0) andMaxWith:SCWIDTH-LEFT_MARGIN-RIGHT_MARGIN];
         _mLabel.backgroundColor = [UIColor yellowColor];
-        _mLabel.mAttributeText = @"123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890哈哈asdshttps://www.baidu.com";
+        _mLabel.mAttributeText = @"12345678901234567890https://www.baidu.com1234567890123456789012345678901234567890123456789012345678901234567890哈哈asds哈哈哈http://www.sohu.com";
     }
     return _mLabel;
 }

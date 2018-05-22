@@ -367,10 +367,8 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
     [self.attributedText enumerateAttributesInRange:NSMakeRange(0, [self.attributedText length]) options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
         
         if (!attrs[(NSString*)kCTFontAttributeName]) {
-            
             [optimizedAttributedText addAttribute:(NSString*)kCTFontAttributeName value:self.font range:NSMakeRange(0, [self.attributedText length])];
         }
-        
         if (!attrs[(NSString*)kCTParagraphStyleAttributeName]) {
             
             NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -392,6 +390,15 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
         [optimizedAttributedText removeAttribute:(NSString*)kCTParagraphStyleAttributeName range:range];
         [optimizedAttributedText addAttribute:(NSString*)kCTParagraphStyleAttributeName value:paragraphStyle range:range];
     }];
+    
+//    [self.attributedText enumerateAttribute:(NSString*)kCTFontAttributeName inRange:NSMakeRange(0, [self.attributedText length]) options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
+//        
+//            [optimizedAttributedText addAttribute:(NSString*)kCTFontAttributeName value:value range:range];
+//        
+//    }];
+//    
+    
+    
     
     ////////
     
