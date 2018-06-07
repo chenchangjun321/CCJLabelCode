@@ -20,7 +20,7 @@
 /**
  @brief 普通文字
  */
-@property (nonatomic,strong) NSString               *mText;
+@property (nonatomic,copy) NSString               *mText;
 
 /**
  @brief 属性文字
@@ -44,6 +44,12 @@
  @discussion 默认左边对齐
  */
 @property (nonatomic,assign) NSTextAlignment        mTextAlignment;
+
+/**
+ @brief 链接的背景色
+ @discussion 为nil默认，Label本身的颜色
+ */
+@property (nonatomic,strong) UIColor                *mLinkBackColor;
 
 /**
  @brief 初始化方法
@@ -70,6 +76,13 @@
  */
 -(void)setAttributeTextColor:(UIColor*)color andRange:(NSRange)range;
 
+/**
+ @brief 修改字色
+ @discussion 字色改变
+ @param color 字色
+ @param subText 要修改的字
+ */
+-(void)setString:(NSString *)subText andColor:(UIColor *)color;
 
 /**
  @brief 字间距
@@ -103,5 +116,13 @@
  @param lineColor 中划线颜色
  */
 -(void)setAttributeTextStrikeThroughLineRange:(NSRange)range andLineColor:(UIColor*)lineColor;
+
+/**
+ @brief 链接的点击事件
+ @discussion 不设置不调用
+ */
+-(void)setLinkClickBlock:(void (^)(NSString *link))linkClickBlock;
+
+
 
 @end

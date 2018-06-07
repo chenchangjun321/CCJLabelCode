@@ -56,6 +56,7 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
 @property (nonatomic,assign) CGFloat mMaxWidth;
 @property (nonatomic,assign) CGPoint mOrigin;
 @property (nonatomic, strong)NSMutableAttributedString *mAttributeString;
+@property (nonatomic,strong)void (^mLinkClick)(NSString *link);
 
 @property(nonatomic, strong) NSArray* matches;
 
@@ -164,6 +165,44 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
     }
     [self renderAttribute];
 }
+
+
+-(NSString *)chenckString:(NSString *)text
+{
+    NSArray *tempArray = [text componentsSeparatedByString:@"."];
+    NSString *newString = [tempArray componentsJoinedByString:@"\\."];
+    
+    NSArray *tempArray1 = [newString componentsSeparatedByString:@"$"];
+    NSString *newString1 = [tempArray1 componentsJoinedByString:@"\\$"];
+    
+    NSArray *tempArray2 = [newString1 componentsSeparatedByString:@"*"];
+    NSString *newString2 = [tempArray2 componentsJoinedByString:@"\\*"];
+    return newString2;
+}
+
+-(void)setString:(NSString *)subText andColor:(UIColor *)color;
+{
+    if(subText == nil){
+        return ;
+    }
+    NSString *stringText = self.mAttributeString.string;
+    NSString *pater5 = [self chenckString:subText];
+    NSRegularExpression *regex = [[NSRegularExpression alloc]initWithPattern:pater5 options:0 error:nil];
+    NSArray *arry =    [regex matchesInString:stringText options:0 range:NSMakeRange(0, stringText.length)];
+    for (NSTextCheckingResult *result in arry) {
+        NSLog(@"%@  %@",NSStringFromRange(result.range),[stringText substringWithRange:result.range]);
+        if(result.range.length<1){
+            continue;
+        }
+        NSRange range = NSMakeRange(result.range.location, result.range.length);
+        if(color){
+            [self addAttributeType:XSAttributedTypeColor value:color range:range];
+        }
+    }
+    [self renderAttribute];
+}
+
+
 -(void)setAttributeTextCharacterSpacing:(CGFloat)wordSpace andRange:(NSRange)range;
 {
     [self addAttributeType:XSAttributedTypecharacterSpacing value:[NSNumber numberWithFloat:wordSpace] range:range];
@@ -384,7 +423,7 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
         NSMutableParagraphStyle* paragraphStyle = [value mutableCopy];
         
         if ([paragraphStyle lineBreakMode] == kCTLineBreakByTruncatingTail) {
-            [paragraphStyle setLineBreakMode:kCTLineBreakByWordWrapping];
+            [paragraphStyle setLineBreakMode:kCTLineBreakByTruncatingTail];
         }
         
         [optimizedAttributedText removeAttribute:(NSString*)kCTParagraphStyleAttributeName range:range];
@@ -508,7 +547,9 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
             NSRange matchRange = [match range];
             if ([self isIndex:charIndex inRange:matchRange]) {
                 NSString *url = [self.mText substringWithRange:matchRange];
-                NSLog(@"%@",url);
+                if(self.mLinkClick){
+                    self.mLinkClick(url);
+                }
                 break;
             }
     }
@@ -517,28 +558,39 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
 
 
 - (void)highlightLinksWithIndex:(CFIndex)index {
-    
-    
     for (NSTextCheckingResult *match in self.matches) {
-        
-//        if ([match resultType] == NSTextCheckingTypeLink) {
+        //        if ([match resultType] == NSTextCheckingTypeLink) {
             NSRange matchRange = [match range];
             if ([self isIndex:index inRange:matchRange]) {
-                [self.mAttributeString addAttribute:NSBackgroundColorAttributeName value:[UIColor grayColor] range:matchRange];
+                [self.mAttributeString addAttribute:NSBackgroundColorAttributeName value:[UIColor redColor] range:matchRange];
             }
             else {
-                [self.mAttributeString addAttribute:NSBackgroundColorAttributeName value:[UIColor blueColor] range:matchRange];
+                if(self.mLinkBackColor){
+                    [self.mAttributeString addAttribute:NSBackgroundColorAttributeName value:self.mLinkBackColor range:matchRange];
+                }else{
+                    [self.mAttributeString addAttribute:NSBackgroundColorAttributeName value:self.backgroundColor range:matchRange];
+                }
             }
 //        }
     }
     [self renderAttribute];
 }
 
+-(void)setMLinkBackColor:(UIColor *)mLinkBackColor
+{
+    _mLinkBackColor = mLinkBackColor;
+    [self highlightLinksWithIndex:NSNotFound];
+}
 
 #pragma mark -
 
 - (BOOL)isIndex:(NSInteger)index inRange:(NSRange)range {
     return index > range.location && index < range.location+range.length;
+}
+
+-(void)setLinkClickBlock:(void (^)(NSString *link))linkClickBlock
+{
+    self.mLinkClick = linkClickBlock;
 }
 
 @end
