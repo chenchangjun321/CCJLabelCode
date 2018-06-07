@@ -202,6 +202,29 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
     [self renderAttribute];
 }
 
+-(void)setString:(NSString *)subText andFont:(UIFont *)font
+{
+    
+    if(subText == nil){
+        return ;
+    }
+    NSString *stringText = self.mAttributeString.string;
+    NSString *pater5 = [self chenckString:subText];
+    NSRegularExpression *regex = [[NSRegularExpression alloc]initWithPattern:pater5 options:0 error:nil];
+    NSArray *arry =    [regex matchesInString:stringText options:0 range:NSMakeRange(0, stringText.length)];
+    for (NSTextCheckingResult *result in arry) {
+        NSLog(@"%@  %@",NSStringFromRange(result.range),[stringText substringWithRange:result.range]);
+        if(result.range.length<1){
+            continue;
+        }
+        NSRange range = NSMakeRange(result.range.location, result.range.length);
+        if(font){
+            [self addAttributeType:XSAttributedTypeFont value:font range:range];
+        }
+    }
+    [self renderAttribute];
+}
+
 
 -(void)setAttributeTextCharacterSpacing:(CGFloat)wordSpace andRange:(NSRange)range;
 {

@@ -32,7 +32,7 @@ static CGFloat const BUTTON_MARGIN = 10;
 -(NSArray *)dataArray
 {
     if(!_dataArray){
-        _dataArray = @[@"改变部分字体",@"改变部分字色",@"修改字间距",@"修改行间距",@"添加下划线",@"添加中划线",@"修改特定字的颜色"];
+        _dataArray = @[@"改变部分字体",@"改变部分字色",@"修改字间距",@"修改行间距",@"添加下划线",@"添加中划线",@"修改特定字的颜色",@"修改特定字的字体"];
     }
     return _dataArray;
 }
@@ -175,8 +175,10 @@ static CGFloat const BUTTON_MARGIN = 10;
         [self.mLabel setAttributeTextUnderLineRange:NSMakeRange(0, 3) andLineColor:[UIColor redColor]];
     }else if(indexPath.row == 5){
         [self.mLabel setAttributeTextStrikeThroughLineRange:NSMakeRange(4, 3) andLineColor:[UIColor greenColor]];
-    }else {
+    }else if(indexPath.row == 6){
         [self.mLabel  setString:@"%5" andColor:[UIColor blueColor]];
+    }else{
+        [self.mLabel  setString:@"%5" andFont:[UIFont systemFontOfSize:20]];
     }
     self.mBackLabelView.height = self.mLabel.height;
     [self.mTableView reloadData];

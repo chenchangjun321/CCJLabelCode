@@ -85,6 +85,14 @@
 -(void)setString:(NSString *)subText andColor:(UIColor *)color;
 
 /**
+ @brief 修改字体
+ @discussion 字色改变
+ @param font 字体
+ @param subText 要修改的字
+ */
+-(void)setString:(NSString *)subText andFont:(UIFont *)font;
+
+/**
  @brief 字间距
  @discussion 间距
  @param range 范围
