@@ -25,7 +25,7 @@
 /**
  @brief 属性文字
  */
-@property (nonatomic,strong) NSString               *mAttributeText;
+@property (nonatomic,copy) NSString               *mAttributeText;
 
 /**
  @brief 最多显示行数

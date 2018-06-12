@@ -84,7 +84,7 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
 
 -(void)setMText:(NSString *)mText
 {
-    _mText = mText;
+    _mText = [mText copy];
     self.text = _mText;
     [self changeSize];
 }
@@ -97,7 +97,7 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
 }
 -(void)setMAttributeText:(NSString *)mAttributeText
 {
-    _mAttributeText = mAttributeText;
+    _mAttributeText = [mAttributeText copy];
     self.mText = _mAttributeText;
     self.mAttributeString = [[NSMutableAttributedString alloc]initWithString:_mAttributeText];
     [self getLinkArray];
