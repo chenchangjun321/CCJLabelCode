@@ -28,6 +28,15 @@
 @property (nonatomic,copy) NSString               *mAttributeText;
 
 /**
+ @brief 属性文字
+ */
+@property (nonatomic, strong)NSMutableAttributedString *mAttributeString;
+
+
+@property (nonatomic,strong) NSString *mHtmlString;
+
+
+/**
  @brief 最多显示行数
  @discussion 默认0，不限制行数
  */
@@ -130,6 +139,14 @@
  @discussion 不设置不调用
  */
 -(void)setLinkClickBlock:(void (^)(NSString *link))linkClickBlock;
+
+
+/**
+ @brief 文字的
+ 点击事件
+ @discussion 不设置不调用
+ */
+-(void)setSubText:(NSString *)subText andSubTextClickBlock:(void(^)(NSString *subText))subTextClickBlock;
 
 
 

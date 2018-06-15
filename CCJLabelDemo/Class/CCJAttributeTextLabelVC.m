@@ -54,7 +54,11 @@ static CGFloat const BUTTON_MARGIN = 10;
         _mLabel.backgroundColor = [UIColor redColor];
         _mLabel.mLinkBackColor = [UIColor yellowColor];
         _mLabel.lineBreakMode = NSLineBreakByCharWrapping;
-        _mLabel.mAttributeText = @"12345678901234567890https://www.baidu.com1234567890123456789012345678901234567890123456789012345678901234567890哈哈asds哈哈哈http://www.sohu.com我的%5";
+//        _mLabel.mHtmlString =@"<html><body> Some html string \n <font size=\"13\" color=\"red\">This is some text!</font> </body></html>";
+        _mLabel.mAttributeText = @"123我爱中国http://www.baidu.com";
+        [_mLabel setSubTextClickBlock:^(NSString *subText) {
+            NSLog(@"%@",subText);
+        } AndSubText:@"我爱中国"];
         [_mLabel setLinkClickBlock:^(NSString *link) {
             NSLog(@"%@",link);
         }];

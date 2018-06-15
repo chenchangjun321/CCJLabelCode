@@ -55,10 +55,12 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
 
 @property (nonatomic,assign) CGFloat mMaxWidth;
 @property (nonatomic,assign) CGPoint mOrigin;
-@property (nonatomic, strong)NSMutableAttributedString *mAttributeString;
 @property (nonatomic,strong)void (^mLinkClick)(NSString *link);
+@property (nonatomic,strong) void(^subTextClickBlock)(NSString *subText);
 
-@property(nonatomic, strong) NSArray* matches;
+@property(nonatomic, strong) NSMutableArray* matches;
+
+@property (nonatomic,strong) NSMutableArray *subTexts;
 
 
 @end
@@ -66,6 +68,22 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
 
 
 @implementation CCJAutoLabel
+
+-(NSMutableArray *)subTexts
+{
+    if(!_subTexts){
+        _subTexts = [[NSMutableArray alloc]init];
+    }
+    return _subTexts;
+}
+
+-(NSMutableArray *)matches
+{
+    if(!_matches){
+        _matches = [[NSMutableArray alloc]init];
+    }
+    return _matches;
+}
 
 - (instancetype)initWithOrigin:(CGPoint)origin andMaxWith:(CGFloat)maxWidth
 {
@@ -116,7 +134,7 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
     NSRegularExpression *detector = [NSRegularExpression regularExpressionWithPattern:regulaStr
                                                                               options:NSRegularExpressionCaseInsensitive
                                                                                 error:&error];
-    self.matches = [detector matchesInString:self.mText options:0 range:NSMakeRange(0, self.mText.length)];
+    [self.matches addObjectsFromArray: [detector matchesInString:self.mText options:0 range:NSMakeRange(0, self.mText.length)]];
 
     
     NSLog(@"%@",self.matches);
@@ -224,6 +242,8 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
     }
     [self renderAttribute];
 }
+
+
 
 
 -(void)setAttributeTextCharacterSpacing:(CGFloat)wordSpace andRange:(NSRange)range;
@@ -577,6 +597,17 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
             }
     }
     
+    for (NSTextCheckingResult *match in self.subTexts) {
+        NSRange matchRange = [match range];
+        if ([self isIndex:charIndex inRange:matchRange]) {
+            NSString *url = [self.mText substringWithRange:matchRange];
+            if(self.subTextClickBlock){
+                self.subTextClickBlock(url);
+            }
+            break;
+        }
+    }
+    
 }
 
 
@@ -605,6 +636,13 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
     [self highlightLinksWithIndex:NSNotFound];
 }
 
+-(void)setMHtmlString:(NSString *)mHtmlString
+{
+    _mHtmlString = [mHtmlString copy];
+    NSMutableAttributedString * attrStr = [[NSMutableAttributedString alloc] initWithData:[mHtmlString dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+    self.mAttributeString = attrStr;
+}
+
 #pragma mark -
 
 - (BOOL)isIndex:(NSInteger)index inRange:(NSRange)range {
@@ -614,6 +652,24 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
 -(void)setLinkClickBlock:(void (^)(NSString *link))linkClickBlock
 {
     self.mLinkClick = linkClickBlock;
+}
+
+/**
+ @brief 文字的
+ 点击事件
+ @discussion 不设置不调用
+ */
+-(void)setSubText:(NSString *)subText andSubTextClickBlock:(void(^)(NSString *subText))subTextClickBlock
+{
+    if(subText == nil){
+        return ;
+    }
+    NSString *stringText = self.mAttributeString.string;
+    NSString *pater5 = [self chenckString:subText];
+    NSRegularExpression *regex = [[NSRegularExpression alloc]initWithPattern:pater5 options:0 error:nil];
+    NSArray *arry =    [regex matchesInString:stringText options:0 range:NSMakeRange(0, stringText.length)];
+    [self.subTexts addObjectsFromArray:arry];
+    self.subTextClickBlock = subTextClickBlock;
 }
 
 @end
