@@ -95,6 +95,10 @@ typedef NS_ENUM(NSUInteger, XSAttributedType) {
         self.mMaxNumberOfLines = 0;
         self.mTextAlignment = NSTextAlignmentLeft;
         self.mFont = [UIFont systemFontOfSize:15];
+        
+        
+        
+        
     }
     return self;
 }
