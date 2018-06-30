@@ -32,7 +32,7 @@ static CGFloat const BUTTON_MARGIN = 10;
 -(NSArray *)dataArray
 {
     if(!_dataArray){
-        _dataArray = @[@"改变部分字体",@"改变部分字色",@"修改字间距",@"修改行间距",@"添加下划线",@"添加中划线"];
+        _dataArray = @[@"改变部分字体",@"改变部分字色",@"修改字间距",@"修改行间距",@"添加下划线",@"添加中划线",@"修改特定字的颜色",@"修改特定字的字体"];
     }
     return _dataArray;
 }
@@ -51,8 +51,17 @@ static CGFloat const BUTTON_MARGIN = 10;
 {
     if(!_mLabel){
         _mLabel = [[CCJAutoLabel alloc]initWithOrigin:CGPointMake(LEFT_MARGIN, 0) andMaxWith:SCWIDTH-LEFT_MARGIN-RIGHT_MARGIN];
-        _mLabel.backgroundColor = [UIColor yellowColor];
-        _mLabel.mAttributeText = @"12345678901234567890https://www.baidu.com1234567890123456789012345678901234567890123456789012345678901234567890哈哈asds哈哈哈http://www.sohu.com";
+        _mLabel.backgroundColor = [UIColor redColor];
+        _mLabel.mLinkBackColor = [UIColor yellowColor];
+        _mLabel.lineBreakMode = NSLineBreakByCharWrapping;
+//        _mLabel.mHtmlString =@"<html><body> Some html string \n <font size=\"13\" color=\"red\">This is some text!</font> </body></html>";
+        _mLabel.mAttributeText = @"123我爱中国http://www.baidu.com";
+        [_mLabel setSubTextClickBlock:^(NSString *subText) {
+            NSLog(@"%@",subText);
+        } AndSubText:@"我爱中国"];
+        [_mLabel setLinkClickBlock:^(NSString *link) {
+            NSLog(@"%@",link);
+        }];
     }
     return _mLabel;
 }
@@ -168,8 +177,12 @@ static CGFloat const BUTTON_MARGIN = 10;
         [self.mLabel setAttributeTextParagraphSpace:25];
     }else if(indexPath.row ==4){
         [self.mLabel setAttributeTextUnderLineRange:NSMakeRange(0, 3) andLineColor:[UIColor redColor]];
-    }else{
+    }else if(indexPath.row == 5){
         [self.mLabel setAttributeTextStrikeThroughLineRange:NSMakeRange(4, 3) andLineColor:[UIColor greenColor]];
+    }else if(indexPath.row == 6){
+        [self.mLabel  setString:@"%5" andColor:[UIColor blueColor]];
+    }else{
+        [self.mLabel  setString:@"%5" andFont:[UIFont systemFontOfSize:20]];
     }
     self.mBackLabelView.height = self.mLabel.height;
     [self.mTableView reloadData];

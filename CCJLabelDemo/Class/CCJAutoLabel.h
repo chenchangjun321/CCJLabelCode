@@ -20,12 +20,21 @@
 /**
  @brief 普通文字
  */
-@property (nonatomic,strong) NSString               *mText;
+@property (nonatomic,copy) NSString               *mText;
 
 /**
  @brief 属性文字
  */
-@property (nonatomic,strong) NSString               *mAttributeText;
+@property (nonatomic,copy) NSString               *mAttributeText;
+
+/**
+ @brief 属性文字
+ */
+@property (nonatomic, strong)NSMutableAttributedString *mAttributeString;
+
+
+@property (nonatomic,strong) NSString *mHtmlString;
+
 
 /**
  @brief 最多显示行数
@@ -44,6 +53,12 @@
  @discussion 默认左边对齐
  */
 @property (nonatomic,assign) NSTextAlignment        mTextAlignment;
+
+/**
+ @brief 链接的背景色
+ @discussion 为nil默认，Label本身的颜色
+ */
+@property (nonatomic,strong) UIColor                *mLinkBackColor;
 
 /**
  @brief 初始化方法
@@ -70,6 +85,21 @@
  */
 -(void)setAttributeTextColor:(UIColor*)color andRange:(NSRange)range;
 
+/**
+ @brief 修改字色
+ @discussion 字色改变
+ @param color 字色
+ @param subText 要修改的字
+ */
+-(void)setString:(NSString *)subText andColor:(UIColor *)color;
+
+/**
+ @brief 修改字体
+ @discussion 字色改变
+ @param font 字体
+ @param subText 要修改的字
+ */
+-(void)setString:(NSString *)subText andFont:(UIFont *)font;
 
 /**
  @brief 字间距
@@ -103,5 +133,21 @@
  @param lineColor 中划线颜色
  */
 -(void)setAttributeTextStrikeThroughLineRange:(NSRange)range andLineColor:(UIColor*)lineColor;
+
+/**
+ @brief 链接的点击事件
+ @discussion 不设置不调用
+ */
+-(void)setLinkClickBlock:(void (^)(NSString *link))linkClickBlock;
+
+
+/**
+ @brief 文字的
+ 点击事件
+ @discussion 不设置不调用
+ */
+-(void)setSubText:(NSString *)subText andSubTextClickBlock:(void(^)(NSString *subText))subTextClickBlock;
+
+
 
 @end
