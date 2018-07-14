@@ -56,9 +56,10 @@ static CGFloat const BUTTON_MARGIN = 10;
         _mLabel.lineBreakMode = NSLineBreakByCharWrapping;
 //        _mLabel.mHtmlString =@"<html><body> Some html string \n <font size=\"13\" color=\"red\">This is some text!</font> </body></html>";
         _mLabel.mAttributeText = @"123我爱中国http://www.baidu.com";
-        [_mLabel setSubTextClickBlock:^(NSString *subText) {
+        
+        [_mLabel setSubText:@"我爱中国" andSubTextClickBlock:^(NSString *subText) {
             NSLog(@"%@",subText);
-        } AndSubText:@"我爱中国"];
+        }];
         [_mLabel setLinkClickBlock:^(NSString *link) {
             NSLog(@"%@",link);
         }];
